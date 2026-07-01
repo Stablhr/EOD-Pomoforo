@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Calendar } from '../icons'
 import { CornerDeco, DecoDots } from '../illustrations'
 import notesBg from '../../assets/images.png'
+import slothImage from '../../assets/1697277f4bb2899ad61a17947f2b0656-cute-sloth-in-pixel-art-style.webp'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
 import NotesField from './NotesField'
@@ -191,7 +192,13 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
       <DecoDots className="w-full h-3 mx-auto" />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
+        <img
+          src={slothImage}
+          alt=""
+          className="absolute -bottom-2 -right-2 w-16 h-16 object-contain opacity-[0.07] pointer-events-none select-none"
+          draggable={false}
+        />
         <ReportPreview report={reportText} />
         <div className="flex flex-wrap gap-2 pt-1">
           <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
