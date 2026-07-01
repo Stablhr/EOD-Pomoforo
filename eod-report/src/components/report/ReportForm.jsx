@@ -196,7 +196,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
         <img
           src={slothImage}
           alt=""
-          className="absolute -bottom-2 -right-2 w-16 h-16 object-contain opacity-[0.07] pointer-events-none select-none"
+          className="absolute -bottom-3 -right-3 w-28 h-28 object-contain opacity-[0.35] pointer-events-none select-none"
           draggable={false}
         />
         <ReportPreview report={reportText} />
