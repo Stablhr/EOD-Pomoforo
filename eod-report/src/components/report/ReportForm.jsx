@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Calendar } from '../icons'
 import { CornerDeco, DecoDots } from '../illustrations'
 import notesBg from '../../assets/images.png'
-import slothImage from '../../assets/1697277f4bb2899ad61a17947f2b0656-cute-sloth-in-pixel-art-style.webp'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
 import NotesField from './NotesField'
@@ -91,9 +90,9 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       ctx.clip()
 
       const img = new Image()
-      img.src = slothImage
+      img.src = currentTheme.mascot
       await img.decode()
-      const s = 64
+      const s = 56
       ctx.drawImage(img, canvasWidth - s - 8, canvasHeight - s - 8, s, s)
       ctx.restore()
 
@@ -221,9 +220,9 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
         <img
-          src={slothImage}
+          src={currentTheme.mascot}
           alt=""
-          className="absolute -bottom-3 -right-3 w-28 h-28 object-contain opacity-[0.35] pointer-events-none select-none"
+          className="absolute -bottom-3 -right-3 w-28 h-28 object-cover rounded-xl opacity-[0.35] pointer-events-none select-none"
           draggable={false}
         />
         <ReportPreview report={reportText} />
