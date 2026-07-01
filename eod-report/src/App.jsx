@@ -57,7 +57,7 @@ function App() {
           onDelete={handleDeleteReport}
           onClose={() => setHistoryOpen(false)}
         />
-        <main className="flex-1 max-w-3xl mx-auto px-4 py-6">
+        <main className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <TabSwitcher active={activeTab} onChange={setActiveTab} theme={theme} />
           <div className="mt-6">
             {activeTab === 'report' ? (

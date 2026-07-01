@@ -15,7 +15,7 @@ export default function SlothMascot({ mood = 'idle', onClick, mascotSrc }) {
     : ''
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-1.5 select-none">
+    <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-40 flex flex-col items-end gap-1.5 select-none">
       {bubble && (
         <div className="px-3 py-1.5 rounded-xl bg-white shadow-xs border border-stone-200 text-xs font-medium text-gray-600 whitespace-nowrap animate-fade-in-up">
           {bubble}

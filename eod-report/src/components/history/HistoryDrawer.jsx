@@ -9,7 +9,7 @@ export default function HistoryDrawer({ open, reports, onLoad, onDelete, onClose
         <div className="fixed inset-0 bg-black/20 z-10" onClick={onClose} />
       )}
       <div
-        className={`fixed top-14 left-0 bottom-0 w-72 bg-white/95 backdrop-blur-sm border-r border-stone-200 shadow-lg z-20 transform transition-transform duration-300 ${
+        className={`fixed top-12 sm:top-14 left-0 bottom-0 w-72 max-w-[calc(100vw-3rem)] bg-white/95 backdrop-blur-sm border-r border-stone-200 shadow-lg z-20 transform transition-transform duration-300 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

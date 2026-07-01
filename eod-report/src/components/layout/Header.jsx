@@ -3,7 +3,7 @@ import { HistoryIcon } from '../icons'
 export default function Header({ onHistoryToggle }) {
   return (
     <header className="border-b border-stone-200 bg-white/80 backdrop-blur-sm sticky top-0 z-30">
-      <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 h-12 sm:h-14 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
             <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

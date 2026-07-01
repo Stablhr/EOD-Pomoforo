@@ -30,7 +30,7 @@ export default function ThemePicker({ theme, onChange }) {
       </button>
 
       {open && (
-        <div className="absolute top-full mt-1.5 right-0 w-48 bg-white rounded-xl shadow-lg border border-stone-200 p-1.5 z-50 animate-fade-in-up">
+        <div className="absolute top-full mt-1.5 right-0 w-48 max-w-[90vw] bg-white rounded-xl shadow-lg border border-stone-200 p-1.5 z-50 animate-fade-in-up">
           {THEMES.map(t => (
             <button
               key={t.id}

@@ -213,7 +213,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
   return (
     <div className="space-y-5">
-      <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+      <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 space-y-4 sm:space-y-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
         <div className="space-y-1.5">
           <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
             <Calendar className="w-3.5 h-3.5 text-indigo-500" />
@@ -223,11 +223,11 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
             type="date"
             value={date}
             onChange={e => setDate(e.target.value)}
-            className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
+            className="w-full sm:w-auto px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
           />
         </div>
 
-        <div className="flex items-end gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
           <div className="flex-1 space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Name / Signature
@@ -250,12 +250,12 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
         <img
           src={currentTheme.mascot}
           alt=""
-          className="absolute -bottom-3 -right-3 w-28 h-28 object-cover rounded-xl opacity-[0.35] pointer-events-none select-none"
+          className="hidden sm:block absolute -bottom-3 -right-3 w-20 md:w-28 h-20 md:h-28 object-cover rounded-xl opacity-[0.35] pointer-events-none select-none"
           draggable={false}
         />
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-4 sm:p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `url(${notesBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="relative">
           <NotesField value={notes} onChange={setNotes} />
@@ -298,7 +298,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl shadow-lg animate-fade-in-up">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl shadow-lg animate-fade-in-up whitespace-nowrap max-w-[90vw] truncate">
           {toast}
         </div>
       )}
