@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { Calendar, Checkmark } from '../icons'
-import { CornerDeco } from '../illustrations'
 import notesBg from '../../assets/images.png'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
@@ -215,9 +214,6 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   return (
     <div className="space-y-5">
       <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-        <div className="absolute top-0 left-0 right-0 pointer-events-none">
-          <CornerDeco className="w-full h-10" />
-        </div>
         <div className="space-y-1.5">
           <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
             <Calendar className="w-3.5 h-3.5 text-indigo-500" />
