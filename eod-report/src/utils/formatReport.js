@@ -1,0 +1,31 @@
+export function formatReport({ date, tasks, notes }) {
+  const lines = []
+  lines.push(`End of Day Report — ${date}`)
+  lines.push('')
+  lines.push('Tasks Completed:')
+
+  const filtered = tasks.filter(t => t.name.trim())
+  if (filtered.length === 0) {
+    lines.push('- (no tasks logged)')
+  } else {
+    filtered.forEach(t => {
+      const hrs = Number(t.hours) || 0
+      lines.push(`- ${t.name.trim()} — ${hrs} hrs`)
+    })
+  }
+
+  lines.push('')
+  const total = filtered.reduce((sum, t) => sum + (Number(t.hours) || 0), 0)
+  lines.push(`Total Hours: ${total} hrs`)
+
+  if (notes.trim()) {
+    lines.push('')
+    lines.push('Notes / Needs:')
+    lines.push(notes.trim())
+  }
+
+  lines.push('')
+  lines.push('— Eyris')
+
+  return lines.join('\n')
+}
