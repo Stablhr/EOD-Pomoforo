@@ -1,7 +1,7 @@
 import slothImg from './assets/1697277f4bb2899ad61a17947f2b0656-cute-sloth-in-pixel-art-style.webp'
-import natureImg from './assets/images.jpeg'
-import oceanImg from './assets/images.jpg'
-import pixelImg from './assets/images.png'
+import bunnyImg from './assets/images.jpeg'
+import kittyImg from './assets/images.jpg'
+import capybaraImg from './assets/images.png'
 
 export const THEMES = [
   {
@@ -12,23 +12,23 @@ export const THEMES = [
     tabIcons: { type: 'svg' },
   },
   {
-    id: 'nature',
-    name: 'Nature',
-    mascot: natureImg,
+    id: 'bunny',
+    name: 'Bunny',
+    mascot: bunnyImg,
     reportStyle: 'plain',
     tabIcons: { type: 'svg' },
   },
   {
-    id: 'ocean',
-    name: 'Ocean',
-    mascot: oceanImg,
+    id: 'kitty',
+    name: 'Kitty',
+    mascot: kittyImg,
     reportStyle: 'plain',
     tabIcons: { type: 'svg' },
   },
   {
-    id: 'pixel',
-    name: 'Pixel',
-    mascot: pixelImg,
+    id: 'capybara',
+    name: 'Capybara',
+    mascot: capybaraImg,
     reportStyle: 'plain',
     tabIcons: { type: 'svg' },
   },
