@@ -12,7 +12,7 @@ export default function NotesField({ value, onChange }) {
         onChange={e => onChange(e.target.value)}
         placeholder="Blockers, follow-ups, requests for the client..."
         rows={3}
-        className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 resize-none"
+        className="w-full px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 resize-none"
       />
     </div>
   )

@@ -14,7 +14,7 @@ export default function PomodoroSettings({ settings, onSave }) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200"
+        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-100/50 rounded-xl transition-all duration-200"
         aria-label="Timer settings"
       >
         <Settings className="w-4 h-4" />
@@ -22,7 +22,7 @@ export default function PomodoroSettings({ settings, onSave }) {
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-10 w-56 bg-white border border-gray-200 rounded-2xl shadow-lg p-4 z-20">
+          <div className="absolute right-0 top-10 w-56 bg-stone-50 border border-stone-200 rounded-2xl shadow-lg p-4 z-20">
             <div className="space-y-3">
               {[
                 { key: 'focus', label: 'Focus (min)' },
@@ -37,7 +37,7 @@ export default function PomodoroSettings({ settings, onSave }) {
                     value={local[field.key]}
                     onChange={e => setLocal({ ...local, [field.key]: Number(e.target.value) })}
                     min="1"
-                    className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                    className="w-full px-2 py-1.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
                   />
                 </div>
               ))}

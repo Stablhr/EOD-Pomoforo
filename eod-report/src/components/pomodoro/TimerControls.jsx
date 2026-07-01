@@ -16,7 +16,7 @@ export default function TimerControls({ mode, onToggle, onReset }) {
       </button>
       <button
         onClick={onReset}
-        className="flex items-center justify-center w-10 h-10 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200"
+        className="flex items-center justify-center w-10 h-10 text-gray-400 hover:text-gray-600 hover:bg-stone-200/50 rounded-full transition-all duration-200"
         aria-label="Reset"
       >
         <Reset className="w-5 h-5" />

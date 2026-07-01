@@ -1,4 +1,4 @@
-export function formatReport({ date, tasks, notes }) {
+export function formatReport({ date, tasks, notes, author }) {
   const lines = []
   lines.push(`End of Day Report — ${date}`)
   lines.push('')
@@ -24,8 +24,10 @@ export function formatReport({ date, tasks, notes }) {
     lines.push(notes.trim())
   }
 
-  lines.push('')
-  lines.push('— Eyris')
+  if (author?.trim()) {
+    lines.push('')
+    lines.push(`— ${author.trim()}`)
+  }
 
   return lines.join('\n')
 }

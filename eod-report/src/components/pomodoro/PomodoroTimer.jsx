@@ -43,7 +43,7 @@ export default function PomodoroTimer() {
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+          <span className="text-xs text-gray-400 bg-stone-200/50 px-2 py-0.5 rounded-full">
           Session {sessionCount + 1} of {settings.longBreakInterval}
         </span>
       </div>

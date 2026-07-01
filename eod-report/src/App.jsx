@@ -10,6 +10,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('report')
   const [historyOpen, setHistoryOpen] = useState(false)
   const [reports, setReports] = useLocalStorage('eod_reports_v1', [])
+  const [author, setAuthor] = useLocalStorage('eod_author', '')
   const [loadedReport, setLoadedReport] = useState(null)
 
   const handleSaveReport = (report) => {
@@ -26,7 +27,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+    <div className="min-h-screen bg-stone-100 text-gray-800 font-sans">
       <Header onHistoryToggle={() => setHistoryOpen(!historyOpen)} />
       <div className="flex">
         <HistoryDrawer
@@ -43,6 +44,8 @@ function App() {
               <ReportForm
                 key={loadedReport?.id || 'new'}
                 initialReport={loadedReport}
+                author={author}
+                onAuthorChange={setAuthor}
                 onSave={handleSaveReport}
                 onClearLoad={() => setLoadedReport(null)}
               />

@@ -11,7 +11,7 @@ export default function TimerRing({ timeRemaining, totalTime, size = 200, stroke
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="#E5E7EB"
+        stroke="#D6D3D1"
         strokeWidth={strokeWidth}
       />
       <circle

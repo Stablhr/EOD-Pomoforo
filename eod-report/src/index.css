@@ -6,3 +6,7 @@
   --color-accent-dark: #4F46E5;
   --font-sans: 'Inter', system-ui, sans-serif;
 }
+
+body {
+  background-color: #F5F5F0;
+}

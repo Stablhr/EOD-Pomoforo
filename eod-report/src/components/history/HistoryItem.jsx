@@ -3,7 +3,7 @@ import { formatDate } from '../../utils/formatDate'
 
 export default function HistoryItem({ report, onLoad, onDelete }) {
   return (
-    <div className="flex items-center justify-between px-3 py-2.5 hover:bg-gray-50 rounded-xl transition-all duration-200 group">
+    <div className="flex items-center justify-between px-3 py-2.5 hover:bg-stone-200/50 rounded-xl transition-all duration-200 group">
       <button
         onClick={() => onLoad(report)}
         className="flex items-center gap-2 flex-1 text-left"

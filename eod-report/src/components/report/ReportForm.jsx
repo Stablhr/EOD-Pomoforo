@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import html2canvas from 'html2canvas'
 import { Calendar } from '../icons'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
@@ -7,7 +8,6 @@ import ReportPreview from './ReportPreview'
 import CopyButton from './CopyButton'
 import { formatReport } from '../../utils/formatReport'
 import { formatDate } from '../../utils/formatDate'
-import { useClipboard } from '../../hooks/useClipboard'
 
 function todayString() {
   const d = new Date()
@@ -17,12 +17,13 @@ function todayString() {
   return `${y}-${m}-${day}`
 }
 
-export default function ReportForm({ initialReport, onSave, onClearLoad }) {
+export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange }) {
   const [date, setDate] = useState(todayString())
   const [tasks, setTasks] = useState([{ id: 1, name: '', hours: '' }])
   const [notes, setNotes] = useState('')
   const [confirmClear, setConfirmClear] = useState(false)
-  const { copy, copied } = useClipboard()
+  const [copied, setCopied] = useState(false)
+  const previewRef = useRef(null)
 
   useEffect(() => {
     if (initialReport) {
@@ -40,6 +41,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad }) {
     date: formattedDate,
     tasks,
     notes,
+    author,
   })
 
   const handleSave = () => {
@@ -48,7 +50,37 @@ export default function ReportForm({ initialReport, onSave, onClearLoad }) {
       tasks: tasks.filter(t => t.name.trim()).map(t => ({ name: t.name.trim(), hours: Number(t.hours) || 0 })),
       notes,
       totalHours,
+      author,
     })
+  }
+
+  const handleCopyScreenshot = async () => {
+    if (!previewRef.current) return
+    const canvas = await html2canvas(previewRef.current, {
+      backgroundColor: '#F5F5F0',
+      scale: 2,
+    })
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+    if (blob) {
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ])
+      } catch {
+        const textarea = document.createElement('textarea')
+        textarea.value = formatReport({
+          date: formattedDate, tasks, notes, author,
+        })
+        textarea.style.position = 'fixed'
+        textarea.style.opacity = '0'
+        document.body.appendChild(textarea)
+        textarea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textarea)
+      }
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const handleClear = () => {
@@ -74,7 +106,20 @@ export default function ReportForm({ initialReport, onSave, onClearLoad }) {
           type="date"
           value={date}
           onChange={e => setDate(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200"
+          className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200"
+        />
+      </div>
+
+      <div className="space-y-1.5">
+        <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700">
+          Name / Signature
+        </label>
+        <input
+          type="text"
+          value={author}
+          onChange={e => onAuthorChange(e.target.value)}
+          placeholder="Your name"
+          className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200"
         />
       </div>
 
@@ -86,12 +131,12 @@ export default function ReportForm({ initialReport, onSave, onClearLoad }) {
       <NotesField value={notes} onChange={setNotes} />
 
       <div className="space-y-3">
-        <ReportPreview report={reportText} />
+        <ReportPreview report={reportText} previewRef={previewRef} />
         <div className="flex gap-2">
-          <CopyButton copied={copied} onCopy={() => copy(reportText)} />
+          <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
           <button
             onClick={handleSave}
-            className="px-4 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-700 hover:bg-gray-50 transition-all duration-200"
+            className="px-4 py-2 rounded-xl text-sm font-medium border border-stone-200 text-gray-700 hover:bg-stone-200/50 transition-all duration-200"
           >
             Save Report
           </button>

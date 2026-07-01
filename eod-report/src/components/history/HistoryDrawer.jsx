@@ -8,11 +8,11 @@ export default function HistoryDrawer({ open, reports, onLoad, onDelete, onClose
         <div className="fixed inset-0 bg-black/20 z-10" onClick={onClose} />
       )}
       <div
-        className={`fixed top-14 left-0 bottom-0 w-72 bg-white border-r border-gray-200 z-20 transform transition-transform duration-300 ${
+        className={`fixed top-14 left-0 bottom-0 w-72 bg-stone-50 border-r border-stone-200 z-20 transform transition-transform duration-300 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-4 h-12 border-b border-gray-100">
+        <div className="flex items-center justify-between px-4 h-12 border-b border-stone-200/50">
           <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
             <HistoryIcon className="w-4 h-4 text-indigo-500" />
             History
