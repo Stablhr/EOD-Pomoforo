@@ -25,7 +25,7 @@ export default function TaskRow({ task, onChange, onDelete }) {
       <span className="text-xs text-gray-400 w-12 sm:w-14 shrink-0">{hrs > 0 ? formatHours(hrs) : 'hrs'}</span>
       <button
         onClick={() => onDelete(task.id)}
-        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-100/50 rounded-xl transition-all duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100"
+        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-100/50 rounded-xl transition-all duration-200 opacity-30 group-hover:opacity-100 focus:opacity-100"
         aria-label="Delete task"
       >
         <Trash className="w-4 h-4" />

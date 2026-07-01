@@ -46,7 +46,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-100 text-gray-800 font-sans">
+    <div className="min-h-screen bg-stone-100 text-gray-800 font-sans overflow-x-hidden w-full">
       <Header onHistoryToggle={() => setHistoryOpen(!historyOpen)} />
       <div className="flex relative">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,rgba(99,102,241,0.03),transparent_50%)]" />
