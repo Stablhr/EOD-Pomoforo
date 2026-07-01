@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Calendar } from '../icons'
-import { CornerDeco, DecoDots } from '../illustrations'
+import { useState, useEffect, useRef } from 'react'
+import { Calendar, Checkmark } from '../icons'
+import { CornerDeco } from '../illustrations'
 import notesBg from '../../assets/images.png'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
 import NotesField from './NotesField'
-import ReportPreview from './ReportPreview'
 import CopyButton from './CopyButton'
 import ThemePicker from '../settings/ThemePicker'
 import { formatReport } from '../../utils/formatReport'
@@ -20,6 +19,13 @@ function todayString() {
   return `${y}-${m}-${day}`
 }
 
+const Spinner = ({ className }) => (
+  <svg className={`animate-spin ${className}`} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+  </svg>
+)
+
 export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange, onCelebrate, theme = 'sloth', onThemeChange }) {
   const currentTheme = getTheme(theme)
   const [date, setDate] = useState(todayString())
@@ -28,6 +34,9 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   const [confirmClear, setConfirmClear] = useState(false)
   const [copied, setCopied] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [copyLoading, setCopyLoading] = useState(false)
+  const [saveLoading, setSaveLoading] = useState(false)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     if (initialReport) {
@@ -36,6 +45,35 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       setNotes(initialReport.notes || '')
     }
   }, [initialReport])
+
+  const saveRef = useRef(null)
+  const copyRef = useRef(null)
+
+  useEffect(() => {
+    saveRef.current = handleSave
+    copyRef.current = handleCopyScreenshot
+  })
+
+  useEffect(() => {
+    if (!toast) return
+    const t = setTimeout(() => setToast(null), 2000)
+    return () => clearTimeout(t)
+  }, [toast])
+
+  useEffect(() => {
+    function handleKeydown(e) {
+      if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault()
+        saveRef.current?.()
+      }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        e.preventDefault()
+        copyRef.current?.()
+      }
+    }
+    window.addEventListener('keydown', handleKeydown)
+    return () => window.removeEventListener('keydown', handleKeydown)
+  }, [])
 
   const totalHours = tasks.reduce((sum, t) => sum + (Number(t.hours) || 0), 0)
   const formattedDate = formatDate(date)
@@ -50,6 +88,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   })
 
   const handleSave = () => {
+    setSaveLoading(true)
     onSave({
       date,
       tasks: tasks.filter(t => t.name.trim()).map(t => ({ name: t.name.trim(), hours: Number(t.hours) || 0 })),
@@ -58,11 +97,14 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       author,
     })
     setSaved(true)
+    setToast('Report saved!')
     onCelebrate?.()
     setTimeout(() => setSaved(false), 2000)
+    setSaveLoading(false)
   }
 
   const handleCopyScreenshot = async () => {
+    setCopyLoading(true)
     try {
       const text = formatReport({ date: formattedDate, tasks, notes, author, reportStyle: currentTheme.reportStyle })
       const lines = text.split('\n')
@@ -137,7 +179,9 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
     } catch {
       await copyText(formatReport({ date: formattedDate, tasks, notes, author, reportStyle: currentTheme.reportStyle }))
     }
+    setCopyLoading(false)
     setCopied(true)
+    setToast('Copied!')
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -207,6 +251,12 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
           <TaskList tasks={tasks} onChange={setTasks} />
           <TotalHours tasks={tasks} />
         </div>
+        <img
+          src={currentTheme.mascot}
+          alt=""
+          className="absolute -bottom-3 -right-3 w-28 h-28 object-cover rounded-xl opacity-[0.35] pointer-events-none select-none"
+          draggable={false}
+        />
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
@@ -214,44 +264,48 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
         <div className="relative">
           <NotesField value={notes} onChange={setNotes} />
         </div>
-      </div>
-
-      <DecoDots className="w-full h-3 mx-auto" />
-
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
-        <img
-          src={currentTheme.mascot}
-          alt=""
-          className="absolute -bottom-3 -right-3 w-28 h-28 object-cover rounded-xl opacity-[0.35] pointer-events-none select-none"
-          draggable={false}
-        />
-        <ReportPreview report={reportText} />
-        <div className="flex flex-wrap gap-2 pt-1">
-          <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
+        <div className="flex flex-wrap gap-2 pt-4 border-t border-stone-100 mt-4">
+          <CopyButton loading={copyLoading} copied={copied} onCopy={handleCopyScreenshot} disabled={copyLoading || copied} />
           <button
             onClick={handleSave}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+            disabled={saveLoading || saved}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
               saved
                 ? 'bg-green-100/50 text-green-700 border border-green-300/50 scale-105'
+                : saveLoading
+                ? 'bg-stone-100 text-gray-400 border border-stone-200 cursor-not-allowed'
                 : 'bg-stone-100 text-gray-700 hover:bg-stone-200 border border-stone-200 active:scale-95'
             }`}
           >
-            {saved ? 'Report Saved' : 'Save Report'}
+            {saveLoading ? (
+              <><Spinner className="w-4 h-4" /> Saving...</>
+            ) : saved ? (
+              <><Checkmark className="w-4 h-4" /> Saved</>
+            ) : (
+              'Save Report'
+            )}
           </button>
           {hasContent && (
             <button
               onClick={handleClear}
+              disabled={saveLoading || copyLoading}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ml-auto ${
                 confirmClear
                   ? 'text-red-600 bg-red-50 border border-red-200'
                   : 'text-gray-400 hover:text-red-500'
-              }`}
+              } ${(saveLoading || copyLoading) ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {confirmClear ? 'Clear anyway?' : 'Clear'}
             </button>
           )}
         </div>
       </div>
+
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl shadow-lg animate-fade-in-up">
+          {toast}
+        </div>
+      )}
     </div>
   )
 }
