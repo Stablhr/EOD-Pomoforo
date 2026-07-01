@@ -1,16 +1,16 @@
+import { useCallback } from 'react'
 import TaskRow from './TaskRow'
 import { Plus } from '../icons'
-
-let nextId = 1
 
 export default function TaskList({ tasks, onChange }) {
   const handleChange = (id, field, value) => {
     onChange(tasks.map(t => t.id === id ? { ...t, [field]: value } : t))
   }
 
-  const handleAdd = () => {
-    onChange([...tasks, { id: nextId++, name: '', hours: '' }])
-  }
+  const handleAdd = useCallback(() => {
+    const maxId = tasks.reduce((max, t) => Math.max(max, t.id), 0)
+    onChange([...tasks, { id: maxId + 1, name: '', hours: '' }])
+  }, [tasks, onChange])
 
   const handleDelete = (id) => {
     if (tasks.length <= 1) return

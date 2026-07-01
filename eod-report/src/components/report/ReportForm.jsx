@@ -18,7 +18,7 @@ function todayString() {
 
 export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange }) {
   const [date, setDate] = useState(todayString())
-  const [tasks, setTasks] = useState([{ id: 1, name: '', hours: '' }])
+  const [tasks, setTasks] = useState([{ id: Date.now(), name: '', hours: '' }])
   const [notes, setNotes] = useState('')
   const [confirmClear, setConfirmClear] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -26,7 +26,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   useEffect(() => {
     if (initialReport) {
       setDate(initialReport.date)
-      setTasks(initialReport.tasks.map((t, i) => ({ ...t, id: i + 1 })))
+      setTasks(initialReport.tasks.map((t, i) => ({ ...t, id: Date.now() + i })))
       setNotes(initialReport.notes || '')
     }
   }, [initialReport])
@@ -132,7 +132,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       return
     }
     setDate(todayString())
-    setTasks([{ id: Date.now(), name: '', hours: '' }])
+    setTasks([{ id: Date.now() + 1, name: '', hours: '' }])
     setNotes('')
     setConfirmClear(false)
     onClearLoad()

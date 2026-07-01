@@ -1,3 +1,5 @@
+import { formatHours } from './formatHours'
+
 export function formatReport({ date, tasks, notes, author }) {
   const lines = []
   lines.push(`End of Day Report — ${date}`)
@@ -10,13 +12,13 @@ export function formatReport({ date, tasks, notes, author }) {
   } else {
     filtered.forEach(t => {
       const hrs = Number(t.hours) || 0
-      lines.push(`- ${t.name.trim()} — ${hrs} hrs`)
+      lines.push(`- ${t.name.trim()} — ${formatHours(hrs)}`)
     })
   }
 
   lines.push('')
   const total = filtered.reduce((sum, t) => sum + (Number(t.hours) || 0), 0)
-  lines.push(`Total Hours: ${total} hrs`)
+  lines.push(`Total Hours: ${formatHours(total)}`)
 
   if (notes.trim()) {
     lines.push('')
