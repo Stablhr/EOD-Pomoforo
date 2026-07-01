@@ -32,22 +32,24 @@ const NoReports = ({ className }) => (
 )
 
 const TimerDeco = ({ className }) => (
-  <svg className={className} viewBox="0 0 240 240" fill="none">
-    <circle cx="120" cy="120" r="115" stroke="#E7E5E4" strokeWidth="1" strokeDasharray="4 6" opacity="0.5" />
-    <circle cx="120" cy="120" r="100" stroke="#E7E5E4" strokeWidth="0.5" opacity="0.4" />
-    <circle cx="120" cy="120" r="85" stroke="#E7E5E4" strokeWidth="0.5" strokeDasharray="2 4" opacity="0.3" />
-    <circle cx="40" cy="40" r="3" fill="#6366F1" opacity="0.1" />
-    <circle cx="200" cy="50" r="2" fill="#6366F1" opacity="0.08" />
-    <circle cx="55" cy="195" r="2.5" fill="#6366F1" opacity="0.1" />
-    <circle cx="190" cy="190" r="2" fill="#6366F1" opacity="0.08" />
-    <circle cx="120" cy="30" r="1.5" fill="#6366F1" opacity="0.12" />
-    <circle cx="30" cy="120" r="1.5" fill="#6366F1" opacity="0.1" />
-    <circle cx="210" cy="130" r="2" fill="#6366F1" opacity="0.08" />
-    <circle cx="120" cy="210" r="1.5" fill="#6366F1" opacity="0.1" />
-    <path d="M58 62 Q68 56 78 62" stroke="#D6D3D1" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4" />
-    <path d="M162 178 Q172 172 182 178" stroke="#D6D3D1" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4" />
-    <path d="M172 52 Q178 48 184 54" stroke="#D6D3D1" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.3" />
-    <path d="M55 172 Q62 165 70 172" stroke="#D6D3D1" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.3" />
+  <svg className={className} viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+        <circle cx="10" cy="10" r="1" fill="#6366F1" opacity="0.08" />
+      </pattern>
+      <pattern id="dot-grid-lg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+        <circle cx="20" cy="20" r="1.5" fill="#6366F1" opacity="0.05" />
+      </pattern>
+    </defs>
+    <rect width="240" height="240" fill="url(#dot-grid)" />
+    <rect width="240" height="240" fill="url(#dot-grid-lg)" />
+    <circle cx="120" cy="120" r="115" stroke="#D6D3D1" strokeWidth="0.5" opacity="0.4" />
+    <circle cx="120" cy="120" r="100" stroke="#D6D3D1" strokeWidth="0.5" strokeDasharray="3 5" opacity="0.3" />
+    <circle cx="120" cy="120" r="85" stroke="#D6D3D1" strokeWidth="0.5" opacity="0.2" />
+    <circle cx="45" cy="45" r="2" fill="#6366F1" opacity="0.12" />
+    <circle cx="195" cy="45" r="2" fill="#6366F1" opacity="0.08" />
+    <circle cx="45" cy="195" r="2" fill="#6366F1" opacity="0.1" />
+    <circle cx="195" cy="195" r="2" fill="#6366F1" opacity="0.08" />
   </svg>
 )
 
