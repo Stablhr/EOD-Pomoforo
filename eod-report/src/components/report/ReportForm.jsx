@@ -142,50 +142,54 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   }
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-1.5">
-        <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700">
-          <Calendar className="w-4 h-4 text-indigo-500" />
-          Date
-        </label>
-        <input
-          type="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
-          className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200"
-        />
+    <div className="space-y-5">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5">
+        <div className="space-y-1.5">
+          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <Calendar className="w-3.5 h-3.5 text-indigo-500" />
+            Date
+          </label>
+          <input
+            type="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            Name / Signature
+          </label>
+          <input
+            type="text"
+            value={author}
+            onChange={e => onAuthorChange(e.target.value)}
+            placeholder="Your name"
+            className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
+          />
+        </div>
+
+        <div className="space-y-3">
+          <TaskList tasks={tasks} onChange={setTasks} />
+          <TotalHours tasks={tasks} />
+        </div>
       </div>
 
-      <div className="space-y-1.5">
-        <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700">
-          Name / Signature
-        </label>
-        <input
-          type="text"
-          value={author}
-          onChange={e => onAuthorChange(e.target.value)}
-          placeholder="Your name"
-          className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200"
-        />
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
+        <NotesField value={notes} onChange={setNotes} />
       </div>
 
-      <div className="space-y-3">
-        <TaskList tasks={tasks} onChange={setTasks} />
-        <TotalHours tasks={tasks} />
-      </div>
-
-      <NotesField value={notes} onChange={setNotes} />
-
-      <div className="space-y-3">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3">
         <ReportPreview report={reportText} />
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 pt-1">
           <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
           <button
             onClick={handleSave}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
               saved
                 ? 'bg-green-100/50 text-green-700 border border-green-300/50 scale-105'
-                : 'border border-stone-200 text-gray-700 hover:bg-stone-200/50'
+                : 'bg-stone-100 text-gray-700 hover:bg-stone-200 border border-stone-200 active:scale-95'
             }`}
           >
             {saved ? 'Report Saved' : 'Save Report'}

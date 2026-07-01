@@ -29,7 +29,7 @@ export default function TaskList({ tasks, onChange }) {
       ))}
       <button
         onClick={handleAdd}
-        className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 font-medium transition-all duration-200"
+        className="flex items-center gap-1.5 px-3 py-2 text-sm text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50/50 font-medium rounded-xl transition-all duration-200 active:scale-95 w-full"
       >
         <Plus className="w-4 h-4" />
         Add Task

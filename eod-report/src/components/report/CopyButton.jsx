@@ -4,10 +4,10 @@ export default function CopyButton({ copied, onCopy }) {
   return (
     <button
       onClick={onCopy}
-      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 active:scale-95 ${
         copied
           ? 'bg-green-100/50 text-green-700 border border-green-300/50'
-          : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm'
+          : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-md shadow-sm'
       }`}
     >
       {copied ? (

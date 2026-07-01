@@ -5,13 +5,22 @@ export default function TimerRing({ timeRemaining, totalTime, size = 200, stroke
   const offset = circumference * (1 - progress)
 
   return (
-    <svg width={size} height={size} className="transform -rotate-90">
+    <svg width={size} height={size} className="transform -rotate-90 drop-shadow-sm">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="#D6D3D1"
+        stroke="#E7E5E4"
         strokeWidth={strokeWidth}
       />
       <circle
@@ -24,6 +33,7 @@ export default function TimerRing({ timeRemaining, totalTime, size = 200, stroke
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
+        filter="url(#glow)"
         className="transition-all duration-300"
       />
     </svg>
