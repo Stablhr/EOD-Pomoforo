@@ -70,19 +70,28 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       const canvasHeight = lines.length * lineHeight + padding * 2
 
       const canvas = document.createElement('canvas')
+      const r = 12
       canvas.width = canvasWidth * 2
       canvas.height = canvasHeight * 2
       const ctx = canvas.getContext('2d')
       ctx.scale(2, 2)
 
-      ctx.fillStyle = '#F5F5F0'
-      ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+      ctx.beginPath()
+      ctx.roundRect(0, 0, canvasWidth, canvasHeight, r)
+      ctx.fillStyle = '#EDE8DD'
+      ctx.fill()
+
+      ctx.save()
+      ctx.beginPath()
+      ctx.roundRect(0, 0, canvasWidth, canvasHeight, r)
+      ctx.clip()
 
       const img = new Image()
       img.src = slothImage
       await img.decode()
       const s = 64
       ctx.drawImage(img, canvasWidth - s - 8, canvasHeight - s - 8, s, s)
+      ctx.restore()
 
       ctx.fillStyle = '#1C1917'
       ctx.font = '600 15px Inter, system-ui, sans-serif'
