@@ -5,7 +5,7 @@ export default function NotesField({ value, onChange }) {
     <div className="space-y-1.5">
       <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
         <Note className="w-3.5 h-3.5 text-indigo-500" />
-        Important Notes / Needs
+        Notes
       </label>
       <textarea
         value={value}

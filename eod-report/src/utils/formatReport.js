@@ -22,7 +22,7 @@ export function formatReport({ date, tasks, notes, author }) {
 
   if (notes.trim()) {
     lines.push('')
-    lines.push('Notes / Needs:')
+    lines.push('Notes:')
     lines.push(notes.trim())
   }
 

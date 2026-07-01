@@ -106,10 +106,15 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
           ctx.fillText(lines[i], padding, y)
           ctx.fillStyle = '#1C1917'
           ctx.font = '400 14px Inter, system-ui, sans-serif'
+        } else if (lines[i].endsWith(':') && !lines[i].startsWith('-')) {
+          ctx.font = '600 14px Inter, system-ui, sans-serif'
+          ctx.fillText(lines[i], padding, y)
+          ctx.font = '400 14px Inter, system-ui, sans-serif'
         } else if (lines[i].startsWith('— ')) {
           ctx.fillStyle = '#78716C'
           ctx.font = '400 14px Inter, system-ui, sans-serif'
           ctx.fillText(lines[i], padding, y)
+          ctx.fillStyle = '#1C1917'
         } else {
           ctx.fillText(lines[i], padding, y)
         }
