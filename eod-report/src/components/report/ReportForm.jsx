@@ -78,6 +78,12 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       ctx.fillStyle = '#F5F5F0'
       ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
+      const img = new Image()
+      img.src = slothImage
+      await img.decode()
+      const s = 64
+      ctx.drawImage(img, canvasWidth - s - 8, canvasHeight - s - 8, s, s)
+
       ctx.fillStyle = '#1C1917'
       ctx.font = '600 15px Inter, system-ui, sans-serif'
       ctx.fillText(lines[0], padding, padding + fontSize)
