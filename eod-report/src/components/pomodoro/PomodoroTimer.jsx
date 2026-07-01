@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Clock } from '../icons'
 import TimerRing from './TimerRing'
 import TimerControls from './TimerControls'
@@ -14,9 +15,20 @@ function formatTime(seconds) {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }
 
-export default function PomodoroTimer() {
+export default function PomodoroTimer({ onStateChange }) {
   const [settings, setSettings] = useLocalStorage('pomodoro_settings', DEFAULTS)
   const { mode, sessionType, sessionCount, timeRemaining, totalTime, toggle, reset } = usePomodoro(settings)
+
+  useEffect(() => {
+    if (onStateChange) {
+      if (mode === 'running') {
+        onStateChange(sessionType === 'focus' ? 'focused' : 'sleepy')
+      } else {
+        onStateChange('idle')
+      }
+    }
+    return () => onStateChange?.('idle')
+  }, [mode, sessionType, onStateChange])
 
   const sessionLabel = {
     focus: 'Focus Time',
@@ -27,7 +39,7 @@ export default function PomodoroTimer() {
   const isBreak = sessionType !== 'focus'
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 max-w-sm mx-auto text-center relative overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 max-w-sm mx-auto text-center relative overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       <div className="absolute inset-0 pointer-events-none">
         <TimerDeco className="w-full h-full" />
       </div>

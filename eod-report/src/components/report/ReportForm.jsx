@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Calendar } from '../icons'
 import { CornerDeco, DecoDots } from '../illustrations'
+import notesBg from '../../assets/images.png'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
 import NotesField from './NotesField'
@@ -17,7 +18,7 @@ function todayString() {
   return `${y}-${m}-${day}`
 }
 
-export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange }) {
+export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange, onCelebrate }) {
   const [date, setDate] = useState(todayString())
   const [tasks, setTasks] = useState([{ id: Date.now(), name: '', hours: '' }])
   const [notes, setNotes] = useState('')
@@ -53,6 +54,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       author,
     })
     setSaved(true)
+    onCelebrate?.()
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -144,7 +146,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
   return (
     <div className="space-y-5">
-      <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5">
+      <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
         <div className="absolute top-0 left-0 right-0 pointer-events-none">
           <CornerDeco className="w-full h-10" />
         </div>
@@ -180,13 +182,16 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
-        <NotesField value={notes} onChange={setNotes} />
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `url(${notesBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+        <div className="relative">
+          <NotesField value={notes} onChange={setNotes} />
+        </div>
       </div>
 
       <DecoDots className="w-full h-3 mx-auto" />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3">
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
         <ReportPreview report={reportText} />
         <div className="flex flex-wrap gap-2 pt-1">
           <CopyButton copied={copied} onCopy={handleCopyScreenshot} />

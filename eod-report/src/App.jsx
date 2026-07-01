@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Header from './components/layout/Header'
 import TabSwitcher from './components/layout/TabSwitcher'
 import ReportForm from './components/report/ReportForm'
 import PomodoroTimer from './components/pomodoro/PomodoroTimer'
 import HistoryDrawer from './components/history/HistoryDrawer'
+import SlothMascot from './components/mascot/SlothMascot'
 import { useLocalStorage } from './hooks/useLocalStorage'
 
 function App() {
@@ -12,11 +13,26 @@ function App() {
   const [reports, setReports] = useLocalStorage('eod_reports_v1', [])
   const [author, setAuthor] = useLocalStorage('eod_author', '')
   const [loadedReport, setLoadedReport] = useState(null)
+  const [mascotMood, setMascotMood] = useState('idle')
 
   const handleSaveReport = (report) => {
     const entry = { ...report, id: Date.now(), createdAt: new Date().toISOString() }
     setReports(prev => [entry, ...prev])
   }
+
+  const handleCelebrate = useCallback(() => {
+    setMascotMood('celebrating')
+    setTimeout(() => setMascotMood('idle'), 2500)
+  }, [])
+
+  const handleTimerState = useCallback((mood) => {
+    setMascotMood(mood)
+  }, [])
+
+  const handleMascotClick = useCallback(() => {
+    setMascotMood('happy')
+    setTimeout(() => setMascotMood('idle'), 2000)
+  }, [])
 
   const handleLoadReport = (report) => {
     setLoadedReport(report)
@@ -49,13 +65,15 @@ function App() {
                 onAuthorChange={setAuthor}
                 onSave={handleSaveReport}
                 onClearLoad={() => setLoadedReport(null)}
+                onCelebrate={handleCelebrate}
               />
             ) : (
-              <PomodoroTimer />
+              <PomodoroTimer onStateChange={handleTimerState} />
             )}
           </div>
         </main>
       </div>
+      <SlothMascot mood={mascotMood} onClick={handleMascotClick} />
     </div>
   )
 }
