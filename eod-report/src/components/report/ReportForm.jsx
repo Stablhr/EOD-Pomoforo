@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
-import html2canvas from 'html2canvas'
+import { useState, useEffect } from 'react'
 import { Calendar } from '../icons'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
@@ -23,7 +22,6 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   const [notes, setNotes] = useState('')
   const [confirmClear, setConfirmClear] = useState(false)
   const [copied, setCopied] = useState(false)
-  const previewRef = useRef(null)
 
   useEffect(() => {
     if (initialReport) {
@@ -55,32 +53,77 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   }
 
   const handleCopyScreenshot = async () => {
-    if (!previewRef.current) return
-    const canvas = await html2canvas(previewRef.current, {
-      backgroundColor: '#F5F5F0',
-      scale: 2,
-    })
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
-    if (blob) {
-      try {
-        await navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': blob })
-        ])
-      } catch {
-        const textarea = document.createElement('textarea')
-        textarea.value = formatReport({
-          date: formattedDate, tasks, notes, author,
-        })
-        textarea.style.position = 'fixed'
-        textarea.style.opacity = '0'
-        document.body.appendChild(textarea)
-        textarea.select()
-        document.execCommand('copy')
-        document.body.removeChild(textarea)
+    try {
+      const text = formatReport({ date: formattedDate, tasks, notes, author })
+      const lines = text.split('\n')
+      const fontSize = 14
+      const padding = 24
+      const lineHeight = fontSize * 1.6
+      const canvasWidth = 480
+      const canvasHeight = lines.length * lineHeight + padding * 2
+
+      const canvas = document.createElement('canvas')
+      canvas.width = canvasWidth * 2
+      canvas.height = canvasHeight * 2
+      const ctx = canvas.getContext('2d')
+      ctx.scale(2, 2)
+
+      ctx.fillStyle = '#F5F5F0'
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+
+      ctx.fillStyle = '#1C1917'
+      ctx.font = '600 15px Inter, system-ui, sans-serif'
+      ctx.fillText(lines[0], padding, padding + fontSize)
+
+      let y = padding + fontSize + lineHeight
+      ctx.font = '400 14px Inter, system-ui, sans-serif'
+      for (let i = 1; i < lines.length; i++) {
+        if (lines[i].startsWith('Total Hours:')) {
+          ctx.fillStyle = '#4F46E5'
+          ctx.font = '600 14px Inter, system-ui, sans-serif'
+          ctx.fillText(lines[i], padding, y)
+          ctx.fillStyle = '#1C1917'
+          ctx.font = '400 14px Inter, system-ui, sans-serif'
+        } else if (lines[i].startsWith('— ')) {
+          ctx.fillStyle = '#78716C'
+          ctx.font = '400 14px Inter, system-ui, sans-serif'
+          ctx.fillText(lines[i], padding, y)
+        } else {
+          ctx.fillText(lines[i], padding, y)
+        }
+        y += lineHeight
       }
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+      if (blob) {
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blob })
+          ])
+        } catch {
+          await copyText(text)
+        }
+      }
+    } catch {
+      await copyText(formatReport({ date: formattedDate, tasks, notes, author }))
     }
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = text
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
   }
 
   const handleClear = () => {
@@ -131,7 +174,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       <NotesField value={notes} onChange={setNotes} />
 
       <div className="space-y-3">
-        <ReportPreview report={reportText} previewRef={previewRef} />
+        <ReportPreview report={reportText} />
         <div className="flex gap-2">
           <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
           <button
