@@ -15,22 +15,22 @@ export const THEMES = [
     id: 'nature',
     name: 'Nature',
     mascot: natureImg,
-    reportStyle: 'emoji',
-    tabIcons: { type: 'emoji' },
+    reportStyle: 'plain',
+    tabIcons: { type: 'svg' },
   },
   {
     id: 'ocean',
     name: 'Ocean',
     mascot: oceanImg,
-    reportStyle: 'emoji',
-    tabIcons: { type: 'emoji' },
+    reportStyle: 'plain',
+    tabIcons: { type: 'svg' },
   },
   {
     id: 'pixel',
     name: 'Pixel',
     mascot: pixelImg,
-    reportStyle: 'emoji',
-    tabIcons: { type: 'emoji' },
+    reportStyle: 'plain',
+    tabIcons: { type: 'svg' },
   },
 ]
 
