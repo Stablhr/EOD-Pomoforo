@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Calendar } from '../icons'
+import { CornerDeco, DecoDots } from '../illustrations'
 import TaskList from './TaskList'
 import TotalHours from './TotalHours'
 import NotesField from './NotesField'
@@ -143,7 +144,10 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
   return (
     <div className="space-y-5">
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5">
+      <div className="relative bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-5">
+        <div className="absolute top-0 left-0 right-0 pointer-events-none">
+          <CornerDeco className="w-full h-10" />
+        </div>
         <div className="space-y-1.5">
           <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
             <Calendar className="w-3.5 h-3.5 text-indigo-500" />
@@ -179,6 +183,8 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
         <NotesField value={notes} onChange={setNotes} />
       </div>
+
+      <DecoDots className="w-full h-3 mx-auto" />
 
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-5 space-y-3">
         <ReportPreview report={reportText} />

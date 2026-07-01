@@ -2,6 +2,7 @@ import { Clock } from '../icons'
 import TimerRing from './TimerRing'
 import TimerControls from './TimerControls'
 import PomodoroSettings from './PomodoroSettings'
+import { TimerDeco, DecoDots } from '../illustrations'
 import { usePomodoro } from '../../hooks/usePomodoro'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 
@@ -26,7 +27,10 @@ export default function PomodoroTimer() {
   const isBreak = sessionType !== 'focus'
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 max-w-sm mx-auto text-center">
+    <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-8 max-w-sm mx-auto text-center relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <TimerDeco className="w-full h-full" />
+      </div>
       <div className="flex items-center justify-center gap-2 mb-8">
         <Clock className="w-5 h-5 text-indigo-500" />
         <h2 className="text-base font-semibold text-gray-800">Focus Timer</h2>
@@ -53,6 +57,7 @@ export default function PomodoroTimer() {
       <TimerControls mode={mode} onToggle={toggle} onReset={reset} />
 
       <div className="mt-6 pt-4 border-t border-stone-100">
+        <DecoDots className="w-full h-3 mb-3" />
         <PomodoroSettings settings={settings} onSave={setSettings} />
       </div>
     </div>
