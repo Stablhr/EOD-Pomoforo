@@ -1,10 +1,18 @@
 import { formatHours } from './formatHours'
 
-export function formatReport({ date, tasks, notes, author }) {
+export function formatReport({ date, tasks, notes, author, reportStyle = 'plain' }) {
+  const useEmoji = reportStyle === 'emoji'
   const lines = []
-  lines.push(`End of Day Report — ${date}`)
-  lines.push('')
-  lines.push('Tasks Completed:')
+
+  if (useEmoji) {
+    lines.push(`📋 End of Day Report — ${date}`)
+    lines.push('')
+    lines.push('✅ Tasks Completed:')
+  } else {
+    lines.push(`End of Day Report — ${date}`)
+    lines.push('')
+    lines.push('Tasks Completed:')
+  }
 
   const filtered = tasks.filter(t => t.name.trim())
   if (filtered.length === 0) {
@@ -18,11 +26,11 @@ export function formatReport({ date, tasks, notes, author }) {
 
   lines.push('')
   const total = filtered.reduce((sum, t) => sum + (Number(t.hours) || 0), 0)
-  lines.push(`Total Hours: ${formatHours(total)}`)
+  lines.push(`${useEmoji ? '🕒 ' : ''}Total Hours: ${formatHours(total)}`)
 
   if (notes.trim()) {
     lines.push('')
-    lines.push('Notes:')
+    lines.push(`${useEmoji ? '📝 ' : ''}Notes:`)
     lines.push(notes.trim())
   }
 

@@ -1,5 +1,3 @@
-import slothImage from '../../assets/1697277f4bb2899ad61a17947f2b0656-cute-sloth-in-pixel-art-style.webp'
-
 const BUBBLES = {
   idle: null,
   happy: 'Great work!',
@@ -8,7 +6,7 @@ const BUBBLES = {
   celebrating: 'Report saved!',
 }
 
-export default function SlothMascot({ mood = 'idle', onClick }) {
+export default function SlothMascot({ mood = 'idle', onClick, mascotSrc }) {
   const bubble = BUBBLES[mood]
 
   const animClass = mood === 'idle' ? 'animate-float'
@@ -28,9 +26,9 @@ export default function SlothMascot({ mood = 'idle', onClick }) {
         className="w-14 h-14 rounded-2xl bg-white shadow-sm border border-stone-200 p-1 cursor-pointer hover:shadow-md hover:border-indigo-200 active:scale-90 transition-all duration-200"
       >
         <img
-          src={slothImage}
+          src={mascotSrc}
           alt="Mascot"
-          className={`w-full h-full object-contain ${animClass}`}
+          className={`w-full h-full object-cover rounded-lg ${animClass}`}
           draggable={false}
         />
       </button>

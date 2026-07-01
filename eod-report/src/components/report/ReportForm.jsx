@@ -8,8 +8,10 @@ import TotalHours from './TotalHours'
 import NotesField from './NotesField'
 import ReportPreview from './ReportPreview'
 import CopyButton from './CopyButton'
+import ThemePicker from '../settings/ThemePicker'
 import { formatReport } from '../../utils/formatReport'
 import { formatDate } from '../../utils/formatDate'
+import { getTheme } from '../../themes'
 
 function todayString() {
   const d = new Date()
@@ -19,7 +21,8 @@ function todayString() {
   return `${y}-${m}-${day}`
 }
 
-export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange, onCelebrate }) {
+export default function ReportForm({ initialReport, onSave, onClearLoad, author, onAuthorChange, onCelebrate, theme = 'sloth', onThemeChange }) {
+  const currentTheme = getTheme(theme)
   const [date, setDate] = useState(todayString())
   const [tasks, setTasks] = useState([{ id: Date.now(), name: '', hours: '' }])
   const [notes, setNotes] = useState('')
@@ -44,6 +47,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
     tasks,
     notes,
     author,
+    reportStyle: currentTheme.reportStyle,
   })
 
   const handleSave = () => {
@@ -61,7 +65,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
 
   const handleCopyScreenshot = async () => {
     try {
-      const text = formatReport({ date: formattedDate, tasks, notes, author })
+      const text = formatReport({ date: formattedDate, tasks, notes, author, reportStyle: currentTheme.reportStyle })
       const lines = text.split('\n')
       const fontSize = 14
       const padding = 24
@@ -132,7 +136,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
         }
       }
     } catch {
-      await copyText(formatReport({ date: formattedDate, tasks, notes, author }))
+      await copyText(formatReport({ date: formattedDate, tasks, notes, author, reportStyle: currentTheme.reportStyle }))
     }
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -184,17 +188,20 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Name / Signature
-          </label>
-          <input
-            type="text"
-            value={author}
-            onChange={e => onAuthorChange(e.target.value)}
-            placeholder="Your name"
-            className="px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
-          />
+        <div className="flex items-end gap-3">
+          <div className="flex-1 space-y-1.5">
+            <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Name / Signature
+            </label>
+            <input
+              type="text"
+              value={author}
+              onChange={e => onAuthorChange(e.target.value)}
+              placeholder="Your name"
+              className="w-full px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 bg-stone-50"
+            />
+          </div>
+          <ThemePicker theme={theme} onChange={onThemeChange} />
         </div>
 
         <div className="space-y-3">

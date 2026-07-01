@@ -6,6 +6,7 @@ import PomodoroTimer from './components/pomodoro/PomodoroTimer'
 import HistoryDrawer from './components/history/HistoryDrawer'
 import SlothMascot from './components/mascot/SlothMascot'
 import { useLocalStorage } from './hooks/useLocalStorage'
+import { getTheme } from './themes'
 
 function App() {
   const [activeTab, setActiveTab] = useState('report')
@@ -14,6 +15,8 @@ function App() {
   const [author, setAuthor] = useLocalStorage('eod_author', '')
   const [loadedReport, setLoadedReport] = useState(null)
   const [mascotMood, setMascotMood] = useState('idle')
+  const [theme, setTheme] = useLocalStorage('icon_theme', 'sloth')
+  const currentTheme = getTheme(theme)
 
   const handleSaveReport = (report) => {
     const entry = { ...report, id: Date.now(), createdAt: new Date().toISOString() }
@@ -55,7 +58,7 @@ function App() {
           onClose={() => setHistoryOpen(false)}
         />
         <main className="flex-1 max-w-3xl mx-auto px-4 py-6">
-          <TabSwitcher active={activeTab} onChange={setActiveTab} />
+          <TabSwitcher active={activeTab} onChange={setActiveTab} theme={theme} />
           <div className="mt-6">
             {activeTab === 'report' ? (
               <ReportForm
@@ -66,6 +69,8 @@ function App() {
                 onSave={handleSaveReport}
                 onClearLoad={() => setLoadedReport(null)}
                 onCelebrate={handleCelebrate}
+                theme={theme}
+                onThemeChange={setTheme}
               />
             ) : (
               <PomodoroTimer onStateChange={handleTimerState} />
@@ -73,7 +78,7 @@ function App() {
           </div>
         </main>
       </div>
-      <SlothMascot mood={mascotMood} onClick={handleMascotClick} />
+      <SlothMascot mood={mascotMood} onClick={handleMascotClick} mascotSrc={currentTheme.mascot} />
     </div>
   )
 }
