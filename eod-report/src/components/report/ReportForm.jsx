@@ -22,6 +22,7 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
   const [notes, setNotes] = useState('')
   const [confirmClear, setConfirmClear] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     if (initialReport) {
@@ -50,6 +51,8 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
       totalHours,
       author,
     })
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
   }
 
   const handleCopyScreenshot = async () => {
@@ -179,9 +182,13 @@ export default function ReportForm({ initialReport, onSave, onClearLoad, author,
           <CopyButton copied={copied} onCopy={handleCopyScreenshot} />
           <button
             onClick={handleSave}
-            className="px-4 py-2 rounded-xl text-sm font-medium border border-stone-200 text-gray-700 hover:bg-stone-200/50 transition-all duration-200"
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+              saved
+                ? 'bg-green-100/50 text-green-700 border border-green-300/50 scale-105'
+                : 'border border-stone-200 text-gray-700 hover:bg-stone-200/50'
+            }`}
           >
-            Save Report
+            {saved ? 'Report Saved' : 'Save Report'}
           </button>
           {hasContent && (
             <button
